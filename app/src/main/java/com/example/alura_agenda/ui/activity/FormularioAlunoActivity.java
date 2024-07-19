@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alura_agenda.R;
@@ -14,34 +15,68 @@ import com.example.alura_agenda.ui.activity.model.Aluno;
 
 public class FormularioAlunoActivity extends AppCompatActivity {
 
+    public static final String TITULO_APPBAR = "Novo Aluno";
+
+    private static EditText campoNome;
+    private static EditText campoTelefone;
+    private static EditText campoEmail;
+
+    private final AlunoDAO dao = new AlunoDAO();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario_aluno);
+        setTitle(TITULO_APPBAR);
+        inicializacaoDosCampos();
+        configuraBotaoSalvar();
+    }
 
-        AlunoDAO dao = new AlunoDAO();
-
-        final EditText campoNome = findViewById(R.id.activity_formulario_aluno_nome);
-        final EditText campoTelefone = findViewById(R.id.activity_formulario_aluno_Telefone);
-        final EditText campoEmail = findViewById(R.id.activity_formulario_aluno_email);
-
+    private void configuraBotaoSalvar() {
         Button botaoSalvar = findViewById(R.id.activity_formulario_aluno_botao_salvar);
         botaoSalvar.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String nome = campoNome.getText().toString();
-                        String telefone = campoTelefone.getText().toString();
-                        String email = campoEmail.getText().toString();
+                        if (semAlgumaInformcaoNomeTelefoneEmail()) {
+                            Toast.makeText(FormularioAlunoActivity.this,
+                                    "É necessário o preenchimento de todos os campos.",
+                                    Toast.LENGTH_SHORT).show();
 
-                        Aluno alunoCriado = new Aluno(nome, telefone, email);
-                        Toast.makeText(FormularioAlunoActivity.this,
-                                alunoCriado.getNome() + " - "
-                                        + alunoCriado.getTelefone() + " - "
-                                        + alunoCriado.getEmail(),
-                                Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FormularioAlunoActivity.this,
+                                    "Não foi incluído nenhum aluno à lista.",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Aluno alunoCriado = criaAluno();
+                            salva(alunoCriado);
+                        }
+                        finish();
                     }
                 }
         );
+    }
+
+    private boolean semAlgumaInformcaoNomeTelefoneEmail() {
+        return campoNome.getText().toString().isEmpty() ||
+                campoTelefone.getText().toString().isEmpty() ||
+                campoEmail.getText().toString().isEmpty();
+    }
+
+    private void inicializacaoDosCampos() {
+        campoNome = findViewById(R.id.activity_formulario_aluno_nome);
+        campoTelefone = findViewById(R.id.activity_formulario_aluno_Telefone);
+        campoEmail = findViewById(R.id.activity_formulario_aluno_email);
+    }
+
+    private void salva(Aluno alunoCriado) {
+        dao.salva(alunoCriado);
+    }
+
+    private static @NonNull Aluno criaAluno() {
+        String nome = campoNome.getText().toString();
+        String telefone = campoTelefone.getText().toString();
+        String email = campoEmail.getText().toString();
+
+        return new Aluno(nome, telefone, email);
     }
 }
