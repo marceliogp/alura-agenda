@@ -7,3 +7,8 @@
 - Aula 03 - Entendendo a base de construção de layouts
 - Aula 04 - Trabalhando com arquivo fonte do layout
 - Aula 05 - Finalizando o Fluxo do App
+
+
+## Curso Alura - Android - Parte 2 - Avançando com Listeners, menu e UI
+
+- Aula 01 - Carregando aluno no formulário

@@ -15,6 +15,7 @@ public class Aluno {
         this.email = email;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return nome; // + " - " + telefone + " - " + email;
