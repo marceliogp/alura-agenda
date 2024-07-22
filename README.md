@@ -13,3 +13,4 @@
 
 - Aula 01 - Carregando aluno no formulário
 - Aula 02 - Editando Aluno pelo formulário
+- Aula 03 - Removendo Aluno da lista
