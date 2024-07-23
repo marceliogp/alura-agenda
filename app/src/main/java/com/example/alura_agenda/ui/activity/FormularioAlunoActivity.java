@@ -4,11 +4,14 @@ import static com.example.alura_agenda.ui.activity.ConstantesActivities.CHAVE_AL
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alura_agenda.R;
@@ -33,8 +36,22 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario_aluno);
         inicializacaoDosCampos();
-        configuraBotaoSalvar();
         carregaAluno();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_formulario_aluno_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.activitu_formulario_aluno_menu_salvar) {
+            finalizaFormulario();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void carregaAluno() {
@@ -55,32 +72,24 @@ public class FormularioAlunoActivity extends AppCompatActivity {
         campoEmail.setText(aluno.getEmail());
     }
 
-    private void configuraBotaoSalvar() {
-        Button botaoSalvar = findViewById(R.id.activity_formulario_aluno_botao_salvar);
-        botaoSalvar.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (semAlgumaInformcaoNomeTelefoneEmail()) {
-                        Toast.makeText(FormularioAlunoActivity.this,
-                                "É necessário o preenchimento de todos os campos.",
-                                Toast.LENGTH_SHORT).show();
+    private void finalizaFormulario() {
+        if (semAlgumaInformcaoNomeTelefoneEmail()) {
+            Toast.makeText(FormularioAlunoActivity.this,
+                    "É necessário o preenchimento de todos os campos.",
+                    Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(FormularioAlunoActivity.this,
-                                "Não foi atualizado ou incluído nenhum aluno à lista.",
-                                Toast.LENGTH_SHORT).show();
-                    } else {
-                        preencheAluno();
-                        if (aluno.temIdValido()) {
-                            dao.edita(aluno);
-                        } else {
-                            dao.salva(aluno);
-                        }
-                    }
-                    finish();
-                }
+            Toast.makeText(FormularioAlunoActivity.this,
+                    "Não foi atualizado ou incluído nenhum aluno à lista.",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            preencheAluno();
+            if (aluno.temIdValido()) {
+                dao.edita(aluno);
+            } else {
+                dao.salva(aluno);
             }
-        );
+        }
+        finish();
     }
 
     private boolean semAlgumaInformcaoNomeTelefoneEmail() {
