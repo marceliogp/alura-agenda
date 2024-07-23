@@ -15,3 +15,8 @@
 - Aula 02 - Editando Aluno pelo formulário
 - Aula 03 - Removendo Aluno da lista
 - Aula 04 - Aplicando Menus do Android
+
+
+## Curso Alura - Android - Parte 3 - Refinando o projeto
+
+- Aula 01 - Personalizando Layout da Lista de Alunos
