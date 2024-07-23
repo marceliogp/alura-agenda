@@ -55,7 +55,7 @@ public class Aluno implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return nome; // + " - " + telefone + " - " + email;
+        return nome + " - " + telefone; // + " - " + email;
     }
 
     public boolean temIdValido() {
