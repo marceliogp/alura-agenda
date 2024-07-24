@@ -3,7 +3,6 @@ package com.example.alura_agenda.ui.activity;
 import static com.example.alura_agenda.ui.activity.ConstantesActivities.CHAVE_ALUNO;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -73,8 +72,11 @@ public class ListaAlunosActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         AdapterView.AdapterContextMenuInfo menuInfo =
                                 (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-                        Aluno alunoEscolhido = adapter.getItem(menuInfo.position);
-                        remove(alunoEscolhido);
+                        Aluno alunoEscolhido = null;
+                        if (menuInfo != null) {
+                            alunoEscolhido = adapter.getItem(menuInfo.position);
+                            remove(alunoEscolhido);
+                        }
                     }
                 })
                 .setNegativeButton("Não", null)
